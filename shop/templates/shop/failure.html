@@ -1,0 +1,27 @@
+{% extends 'shop/basic.html' %}
+{% block title %} Payment status {% endblock %}
+{% block css %}
+.text1{
+    font-size: 30px;
+    font-weight: 600;
+}
+{% endblock %}
+{% block body %}
+<div class="container mb-4 pt-4 text-center">
+    <div class="text1">
+        Sorry! Payment Failed.
+
+    </div>
+
+    <br>
+    <a href="/shop">
+    <button type="button" class="btn btn-primary" >Click here to proceed</button>
+    </a>
+
+</div>
+{% endblock %}
+{% block js%}
+<script>
+
+</script>
+{% endblock%}
