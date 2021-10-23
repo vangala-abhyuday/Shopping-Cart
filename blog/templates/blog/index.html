@@ -9,6 +9,10 @@
     margin-right: 0px;
     margin-left: 15px;
 }
+.border{
+    border: 2px solid midnightblue!important;
+}
+
 .blogtext{
     background-color: white;
 }
@@ -28,11 +32,13 @@
                     <p class="card-text mb-auto">{{post.con_head0|slice:":80"}}...</p>
                     <a href="blogpost/{{post.post_id}}" class="stretched-link">Continue reading</a>
                 </div>
+
                 <div class="col-auto d-none d-lg-block px-0">
                     <img src="/media/{{post.thumbnail}}" class="bd-placeholder-img" width="215" height="270"  role="img" aria-label="Placeholder: Thumbnail">
                         <title>Placeholder</title>
                     </img>
                 </div>
+
             </div>
         </div>
 

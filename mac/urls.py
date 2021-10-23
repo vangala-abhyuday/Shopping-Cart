@@ -20,13 +20,20 @@ from django.conf.urls.static import static
 from . import views
 from django.views.generic import TemplateView
 
+from django.views.static import serve
+from django.conf.urls import url
+
 urlpatterns = [
     path('shop/login/', TemplateView.as_view(template_name="shop/loginpage.html")),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path("",views.index,name='index'),
     path("shop/",include("shop.urls")),
-    path("blog/",include("blog.urls"))
+    path("blog/",include("blog.urls")),
+
+    url(r'^media/(?P<path>.*)$', serve,{'document_root':  settings.MEDIA_ROOT}), 
+    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT})
+
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
