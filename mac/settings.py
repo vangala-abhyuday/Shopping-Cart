@@ -13,11 +13,17 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 
+import dj_database_url
+import django_heroku
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,7 +35,7 @@ SECRET_KEY = 'django-insecure-+5)76u#d^ohb$ifiv-8u$(+43#-^%%uygr1-cfqysrsws%a$&p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1:8000', 'shoppingcart-msc.herokuapp.com']
+ALLOWED_HOSTS = ['shoppingcart-msc.herokuapp.com']
 # ALLOWED_HOSTS = []
 
 
@@ -95,8 +101,9 @@ WSGI_APPLICATION = 'mac.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'ciba',
     }
 }
 
@@ -174,6 +181,8 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+django_heroku.settings(locals())
 
 # client id = "757976455434-ojbr547vc3gs85d7o6lq4krg9g6a0a95.apps.googleusercontent.com"
 # client secret = "_eIGxV87v9Tz-4RTW270rOft"

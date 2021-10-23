@@ -100,7 +100,6 @@ def productView(request,myid):
 
 # @login_required
 def checkout(request):
-    thank = "0"
     if request.method=="POST":
         itemsJson=request.POST.get('itemsJson','')
         amount=request.POST.get('amount','')
@@ -136,7 +135,7 @@ def checkout(request):
         return render(request, 'shop/checkout.html',{'thank':thank, 'id':id1, 'amount':order_amount,
                 'order':order, 'order_id':razorpay_order['id'], 'razorpay_merchant_id': "rzp_test_ZCYa51jvvnD7cK", 'callback_url':callback_url})
 
-    return render(request, 'shop/checkout.html',{'thank':thank})
+    return render(request, 'shop/checkout.html')
 
 #
 #
