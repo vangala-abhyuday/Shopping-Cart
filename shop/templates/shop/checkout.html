@@ -1,11 +1,4 @@
-{% extends 'shop/basic.html' %}
-{% block title%} Checkout - Shopping Cart{% endblock %}
-{% block css%}
-.list-group-item:last-child {
-    border: 2px solid black;
-}
-{% endblock %}
-{% block body %}
+{% extends 'shop/basic.html' %} {% block title%} Checkout - Shopping Cart{% endblock %} {% block css%} .list-group-item:last-child { border: 2px solid black; } {% endblock %} {% block body %}
 <div class="container ">
     <div class="col py-4">
         <h2>Step 1 - Shopping Cart Express Checkout - Review Your Cart Items</h2>
@@ -60,99 +53,97 @@
         </form>
     </div>
 </div>
-{% endblock %}
-{% block js%}
+{% endblock %} {% block js%}
 <script>
+    if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    } else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
 
-if (localStorage.getItem('cart') == null) {
-    var cart = {};
-} else {
-    cart = JSON.parse(localStorage.getItem('cart'));
-}
+    console.log(cart);
+    var total_price = 0;
+    if ($.isEmptyObject(cart)) {
+        mystr = `<p> Your cart is Empty, add some items before checking out </p>`
 
-console.log(cart);
-var total_price=0;
-if ($.isEmptyObject(cart)) {
-    mystr = `<p> Your cart is Empty, add some items before checking out </p>`
+        $('#items').append(mystr);
+    } else {
+        for (item in cart) {
+            let qty = cart[item][0];
+            let name = cart[item][1];
+            let price = cart[item][2].slice(10);
+            let pr = parseInt(price);
+            total_price = total_price + pr * qty;
 
-    $('#items').append(mystr);
-} else {
-    for (item in cart) {
-        let qty = cart[item][0];
-        let name = cart[item][1];
-        let price= cart[item][2].slice(10);
-        let pr=parseInt(price);
-        total_price=total_price+pr*qty;
-
-        mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+            mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
                 ${name}
                 <span class="badge badge-primary badge-pill">${qty}</span>
             </li>`
 
-        $('#items').append(mystr);
+            $('#items').append(mystr);
 
-    }
-    mystr = `<h5><li class="list-group-item d-flex justify-content-between align-items-center">
+        }
+        mystr = `<h5><li class="list-group-item d-flex justify-content-between align-items-center">
                 Total Price 
                 <span id="total_price" >Rs. ${total_price}</span>
                 
             </li></h5>`
-    $('#items').append(mystr);
+        $('#items').append(mystr);
 
-}
+    }
 
-$('#itemsJson').val(JSON.stringify(cart));
+    $('#itemsJson').val(JSON.stringify(cart));
 
 
-$('#amount').val(total_price)
-
+    $('#amount').val(total_price)
 </script>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-var options = {
-    "key": "{{ razorpay_merchant_id }}",
-    "amount": "{{ amount }}" ,
-    "currency": "INR",
-    "name": "Shopping Cart",
-    "description": "Test Transaction",
-    "image": "https://www.clipartmax.com/png/middle/290-2903993_shopping-cart-logo-online-shopping-service-shopping-cart-logi.png",
-    "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-    "callback_url": "{{callback_url}}",
-<!--    "handler": function (response){-->
-<!--        alert(response.razorpay_payment_id);-->
-<!--        alert(response.razorpay_order_id);-->
-<!--        alert(response.razorpay_signature)-->
-<!--    },-->
-    "prefill": {
-        "name": "{{user.username}}",
-        "email": "{{user.email}}",
-    },
-    "notes": {
-        "address": "Razorpay Corporate Office"
-    },
-    "theme": {
-        "color": "#3399cc"
+    var options = {
+        "key": "{{ razorpay_merchant_id }}",
+        "amount": "{{ amount }}",
+        "currency": "INR",
+        "name": "Shopping Cart",
+        "description": "Test Transaction",
+        "image": "https://www.clipartmax.com/png/middle/290-2903993_shopping-cart-logo-online-shopping-service-shopping-cart-logi.png",
+        "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "callback_url": "{{callback_url}}",
+        <!--    "handler": function (response){-->
+        <!--        alert(response.razorpay_payment_id);-->
+        <!--        alert(response.razorpay_order_id);-->
+        <!--        alert(response.razorpay_signature)-->
+        <!--    },-->
+        "prefill": {
+            "name": "{{user.username}}",
+            "email": "{{user.email}}",
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function(response) {
+        alert("Payment Failed. Please try again.");
+        <!--        alert(response.error.code);-->
+        <!--        alert(response.error.description);-->
+        <!--        alert(response.error.source);-->
+        <!--        alert(response.error.step);-->
+        <!--        alert(response.error.reason);-->
+        <!--        alert(response.error.metadata.order_id);-->
+        <!--        alert(response.error.metadata.payment_id);-->
+    });
+
+    if ({
+            thank
+        } ==
+        1) {
+        rzp1.open();
+        e.preventDefault();
     }
-};
-var rzp1 = new Razorpay(options);
-rzp1.on('payment.failed', function (response){
-            alert("Payment Failed. Please try again.");
-<!--        alert(response.error.code);-->
-<!--        alert(response.error.description);-->
-<!--        alert(response.error.source);-->
-<!--        alert(response.error.step);-->
-<!--        alert(response.error.reason);-->
-<!--        alert(response.error.metadata.order_id);-->
-<!--        alert(response.error.metadata.payment_id);-->
-});
-
-if ({{thank}} == 1){
-    rzp1.open();
-    e.preventDefault();
-}
-
-
 </script>
 
 {% endblock%}
