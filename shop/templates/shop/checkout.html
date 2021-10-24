@@ -107,13 +107,14 @@
         "name": "Shopping Cart",
         "description": "Test Transaction",
         "image": "https://www.clipartmax.com/png/middle/290-2903993_shopping-cart-logo-online-shopping-service-shopping-cart-logi.png",
-        "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-<!--        "callback_url": "{{callback_url}}",-->
-<!--            "handler": function (response){-->
-<!--                alert(response.razorpay_payment_id);-->
-<!--                alert(response.razorpay_order_id);-->
-<!--                alert(response.razorpay_signature)-->
-<!--            },-->
+        "order_id": "{{order_id}}",
+        //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "callback_url": "{{callback_url}}",
+        // "handler": function(response) {
+        //     alert(response.razorpay_payment_id)
+        //     alert(response.razorpay_order_id);
+        //     alert(response.razorpay_signature)
+        // },
         "prefill": {
             "name": "{{user.username}}",
             "email": "{{user.email}}",
@@ -128,19 +129,16 @@
     var rzp1 = new Razorpay(options);
     rzp1.on('payment.failed', function(response) {
         alert("Payment Failed. Please try again.");
-<!--                alert(response.error.code);-->
-<!--                alert(response.error.description);-->
-<!--                alert(response.error.source);-->
-<!--                alert(response.error.step);-->
-<!--                alert(response.error.reason);-->
-<!--                alert(response.error.metadata.order_id);-->
-<!--                alert(response.error.metadata.payment_id);-->
+        // alert(response.error.code);
+        // alert(response.error.description);
+        // alert(response.error.source);
+        // alert(response.error.step);
+        // alert(response.error.reason);
+        // alert(response.error.metadata.order_id);
+        // alert(response.error.metadata.payment_id);
     });
 
-    if ({{
-            thank
-        }} ==
-        1) {
+    if ("{{thank}}" == "1") {
         rzp1.open();
         e.preventDefault();
     }
